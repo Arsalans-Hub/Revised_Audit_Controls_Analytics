@@ -1,10 +1,6 @@
 # IT General Controls & Data Assurance Analytics
 
-A simulated audit-analytics engagement — built to mirror the kind of work done in **PwC's Digital Assurance & Transparency (DAT)** practice, as well as **EY Technology Risk** and **Deloitte Technology Controls Advisory**.
-
-The project takes a messy, realistic mock ERP export (user access + GL transactions) and runs it through the same three-part workflow an IT/data assurance associate would: **(1)** validate the data can be trusted, **(2)** test IT General Controls (access risk, Segregation of Duties), **(3)** run substantive analytics over transactions to flag exceptions and anomalies. Results are surfaced in an interactive dashboard.
-
-> 📌 **Why this project exists:** PwC DAT's own internship postings call for exactly this skill set — SQL, Python, data cleansing/modeling, and "learning the risk and controls in the business process and the application and database layer." EY Technology Risk and Deloitte's Technology Controls Advisory teams run the SOC/SOX/ITGC tests this project automates. I built this to show that work end to end, not just describe it.
+A simulated audit-analytics engagement — I built this project to mirror the kind of work done by a lot of the Big 4 and other institutions when dealing with ERP exports (user access + GL transactions) and runs it through the same three-part workflow an IT/data assurance associate would which is: (1) validate the data can be trusted, (2) test IT General Controls (access risk, Segregation of Duties), and then (3) run substantive analytics over transactions to flag exceptions and anomalies. Results are surfaced in an interactive dashboard.
 
 ---
 
@@ -12,9 +8,9 @@ The project takes a messy, realistic mock ERP export (user access + GL transacti
 
 | Stage | What's tested | Techniques |
 |---|---|---|
-| **1. Data Assurance** | Is the data complete, valid, and de-duplicated before we trust it? | SQL completeness/validity checks, data cleansing, a composite quality score |
-| **2. Access & SoD Testing** | Does anyone hold two incompatible roles? Was access revoked when someone left? | SQL self-joins against a Segregation-of-Duties conflict matrix; ITGC-style access review |
-| **3. Transaction Testing** | Are transactions properly approved? Do amounts look natural? | SQL exception queries, Benford's Law, an Isolation Forest anomaly-detection model |
+| 1. Data Assurance** | Is the data complete, valid, and de-duplicated before we trust it? | SQL completeness/validity checks, data cleansing, a composite quality score |
+| 2. Access & SoD Testing** | Does anyone hold two incompatible roles? Was access revoked when someone left? | SQL self-joins against a Segregation-of-Duties conflict matrix; ITGC-style access review |
+| 3. Transaction Testing** | Are transactions properly approved? Do amounts look natural? | SQL exception queries, Benford's Law, an Isolation Forest anomaly-detection model |
 
 ---
 
