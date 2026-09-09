@@ -1,0 +1,34 @@
+{
+  "data_quality": {
+    "records_scanned": 6849,
+    "data_quality_score_before": 97.7,
+    "data_quality_score_after": 98.7,
+    "duplicate_access_rows_removed": 9,
+    "missing_department": 8,
+    "invalid_email": 5,
+    "duplicate_access_groups": 9,
+    "missing_granted_by": 18
+  },
+  "access_review": {
+    "active_users_reviewed": 352,
+    "terminated_users_reviewed": 48,
+    "users_with_sod_conflicts": 32,
+    "pct_active_users_with_sod_conflict": 9.1,
+    "terminated_users_with_active_access": 24,
+    "pct_terminated_users_with_orphaned_access": 50.0
+  },
+  "transaction_testing": {
+    "transactions_reviewed": 6000,
+    "missing_required_approval": 4,
+    "self_approved_transactions": 0,
+    "near_threshold_transactions": 105,
+    "benford_mad": 0.005,
+    "benford_conformity": "Close conformity",
+    "transactions_flagged_anomalous": 119,
+    "seeded_anomalies": 116,
+    "flagged_by_model": 119,
+    "true_positives": 62,
+    "model_recall": 53.4,
+    "model_precision": 52.1
+  }
+}
