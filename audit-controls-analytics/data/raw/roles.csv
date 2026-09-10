@@ -1,0 +1,12 @@
+role_id,role_name,department
+R01,AP Clerk,Accounts Payable
+R02,AP Approver,Accounts Payable
+R03,Vendor Master Maintainer,Accounts Payable
+R04,Purchasing Buyer,Procurement
+R05,Purchasing Approver,Procurement
+R06,GL Preparer,General Ledger
+R07,GL Approver,General Ledger
+R08,System Administrator,IT
+R09,Read-Only Reporting,Operations
+R10,HR Generalist,Human Resources
+R11,Sales Rep,Sales

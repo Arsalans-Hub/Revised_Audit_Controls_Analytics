@@ -1,0 +1,8 @@
+role_a,role_b
+AP Clerk,AP Approver
+Vendor Master Maintainer,AP Approver
+Purchasing Buyer,Purchasing Approver
+GL Preparer,GL Approver
+System Administrator,AP Approver
+System Administrator,GL Approver
+System Administrator,Purchasing Approver

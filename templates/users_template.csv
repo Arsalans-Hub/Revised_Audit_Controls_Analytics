@@ -1,0 +1,3 @@
+user_id,first_name,last_name,department,email,hire_date,status,termination_date
+U0001,Jane,Doe,Accounts Payable,jane.doe@company.com,2022-03-01,Active,
+U0002,John,Smith,Procurement,john.smith@company.com,2019-07-15,Terminated,2026-01-10

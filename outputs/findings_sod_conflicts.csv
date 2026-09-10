@@ -1,33 +1,33 @@
-user_id,role_a,role_b
-U0126,AP Approver,AP Clerk
-U0138,AP Approver,AP Clerk
-U0159,AP Approver,AP Clerk
-U0181,AP Approver,AP Clerk
-U0347,AP Approver,AP Clerk
-U0176,AP Approver,Vendor Master Maintainer
-U0246,AP Approver,Vendor Master Maintainer
-U0295,AP Approver,Vendor Master Maintainer
-U0315,AP Approver,Vendor Master Maintainer
-U0332,AP Approver,Vendor Master Maintainer
-U0344,AP Approver,Vendor Master Maintainer
-U0369,AP Approver,Vendor Master Maintainer
-U0272,Purchasing Approver,Purchasing Buyer
-U0324,Purchasing Approver,Purchasing Buyer
-U0326,Purchasing Approver,Purchasing Buyer
-U0398,Purchasing Approver,Purchasing Buyer
-U0188,GL Approver,GL Preparer
-U0256,GL Approver,GL Preparer
-U0327,GL Approver,GL Preparer
-U0112,AP Approver,System Administrator
-U0173,AP Approver,System Administrator
-U0258,AP Approver,System Administrator
-U0289,AP Approver,System Administrator
-U0353,AP Approver,System Administrator
-U0084,GL Approver,System Administrator
-U0182,GL Approver,System Administrator
-U0205,GL Approver,System Administrator
-U0059,Purchasing Approver,System Administrator
-U0081,Purchasing Approver,System Administrator
-U0171,Purchasing Approver,System Administrator
-U0293,Purchasing Approver,System Administrator
-U0386,Purchasing Approver,System Administrator
+user_id,role_a,role_b,department
+U0126,AP Approver,AP Clerk,IT
+U0138,AP Approver,AP Clerk,General Ledger
+U0159,AP Approver,AP Clerk,Human Resources
+U0181,AP Approver,AP Clerk,Operations
+U0347,AP Approver,AP Clerk,IT
+U0176,AP Approver,Vendor Master Maintainer,IT
+U0246,AP Approver,Vendor Master Maintainer,Operations
+U0295,AP Approver,Vendor Master Maintainer,Human Resources
+U0315,AP Approver,Vendor Master Maintainer,General Ledger
+U0332,AP Approver,Vendor Master Maintainer,IT
+U0344,AP Approver,Vendor Master Maintainer,Operations
+U0369,AP Approver,Vendor Master Maintainer,Accounts Payable
+U0272,Purchasing Approver,Purchasing Buyer,Human Resources
+U0324,Purchasing Approver,Purchasing Buyer,Sales
+U0326,Purchasing Approver,Purchasing Buyer,Human Resources
+U0398,Purchasing Approver,Purchasing Buyer,Procurement
+U0188,GL Approver,GL Preparer,Operations
+U0256,GL Approver,GL Preparer,Sales
+U0327,GL Approver,GL Preparer,Accounts Payable
+U0112,AP Approver,System Administrator,Sales
+U0173,AP Approver,System Administrator,Operations
+U0258,AP Approver,System Administrator,Human Resources
+U0289,AP Approver,System Administrator,Sales
+U0353,AP Approver,System Administrator,Procurement
+U0084,GL Approver,System Administrator,Procurement
+U0182,GL Approver,System Administrator,IT
+U0205,GL Approver,System Administrator,Accounts Payable
+U0059,Purchasing Approver,System Administrator,Operations
+U0081,Purchasing Approver,System Administrator,IT
+U0171,Purchasing Approver,System Administrator,Operations
+U0293,Purchasing Approver,System Administrator,Unknown
+U0386,Purchasing Approver,System Administrator,IT

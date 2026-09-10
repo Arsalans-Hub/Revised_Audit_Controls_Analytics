@@ -9,18 +9,10 @@ Substantive testing over the GL transaction population:
      trigger).
   2. Benford's Law first-digit test -- a standard forensic-accounting
      technique to spot unnatural transaction populations.
-  3. An Isolation Forest anomaly-detection model. When run against the
-     sample data, its recall is measured against a held-out set of
-     transactions that were deliberately seeded as anomalous during data
-     generation (a lightweight way to validate a detection model's
-     performance without real labeled fraud data). This validation step
-     is skipped for a user's own uploaded data, since there's no seeded
-     ground truth to check it against.
-
-The *_test/_scan/_checks functions below are pure (dataframe in, dataframe
-out, no disk I/O) so they can be reused by both the CLI pipeline (which
-writes results to outputs/) and the Streamlit app's live "upload your own
-data" mode (which just displays them).
+  3. An Isolation Forest anomaly-detection model, whose recall is measured
+     against a held-out set of transactions that were deliberately seeded
+     as anomalous during data generation (a lightweight way to validate a
+     detection model's performance without real labeled fraud data).
 """
 
 import sqlite3
@@ -51,7 +43,6 @@ def load():
 
 
 def control_exception_checks(txns):
-    """Pure: no disk I/O."""
     conn = sqlite3.connect(":memory:")
     txns.to_sql("gl_transactions", conn, index=False)
 
@@ -73,14 +64,17 @@ def control_exception_checks(txns):
         WHERE amount BETWEEN 4500.00 AND 4999.99
     """, conn)
     conn.close()
+
+    missing_approval.to_csv(OUTPUTS_DIR / "findings_missing_approval.csv", index=False)
+    near_threshold.to_csv(OUTPUTS_DIR / "findings_threshold_avoidance.csv", index=False)
+
     return missing_approval, self_approved, near_threshold
 
 
 def benfords_law_test(txns):
-    """Pure: no disk I/O."""
     first_digits = txns["amount"].apply(lambda x: int(str(x)[0]) if str(x)[0] != '0' else None).dropna()
     observed_counts = Counter(int(d) for d in first_digits)
-    total = sum(observed_counts.values()) or 1
+    total = sum(observed_counts.values())
     observed_pct = {d: observed_counts.get(d, 0) / total for d in range(1, 10)}
     expected_pct = BENFORD_EXPECTED
 
@@ -100,13 +94,12 @@ def benfords_law_test(txns):
         "observed_pct": [round(observed_pct[d] * 100, 2) for d in range(1, 10)],
         "expected_pct": [round(expected_pct[d] * 100, 2) for d in range(1, 10)],
     })
+    benford_df.to_csv(OUTPUTS_DIR / "benford_first_digit_distribution.csv", index=False)
+
     return {"mean_absolute_deviation": round(mad, 4), "conformity": conformity}, benford_df
 
 
-def isolation_forest_scan(txns, contamination=0.02):
-    """Pure: no disk I/O. contamination=0.02 matches the original sample-data
-    run (119 flagged / 53.4% recall / 52.1% precision) -- keep the default
-    for the sample data; the app can pass a different value for uploads."""
+def isolation_forest_scan(txns):
     features = txns.copy()
     features["day_of_week"] = features["txn_date"].dt.dayofweek
     features["is_weekend"] = (features["day_of_week"] >= 5).astype(int)
@@ -116,19 +109,25 @@ def isolation_forest_scan(txns, contamination=0.02):
 
     X = features[["log_amount", "is_weekend", "has_approver", "is_round_amount"]]
 
-    model = IsolationForest(n_estimators=300, contamination=contamination, random_state=42)
+    model = IsolationForest(n_estimators=300, contamination=0.02, random_state=42)
     features["anomaly_score"] = model.fit_predict(X)  # -1 = anomaly, 1 = normal
     features["anomaly_raw_score"] = model.decision_function(X)
 
     flagged = features[features["anomaly_score"] == -1].sort_values("anomaly_raw_score")
+    flagged[["transaction_id", "txn_date", "preparer_id", "amount", "account",
+             "is_weekend", "has_approver", "is_round_amount", "anomaly_raw_score"]].to_csv(
+        OUTPUTS_DIR / "findings_anomalous_transactions.csv", index=False
+    )
     return flagged, len(features)
 
 
-def validate_against_seeded_anomalies(flagged, key_df):
-    """Measures the Isolation Forest's recall against a known set of
-    transactions deliberately seeded as anomalous -- only meaningful for
-    the sample data, since real uploaded data has no seeded ground truth."""
-    seeded_ids = set(key_df[key_df["_seeded_anomaly"]]["transaction_id"])
+def validate_against_seeded_anomalies(flagged):
+    """Measures the Isolation Forest's recall against the known set of
+    transactions that were deliberately seeded as anomalous during data
+    generation -- a way to sanity-check the model without real fraud
+    labels."""
+    key = pd.read_csv(VALIDATION_DIR / "seeded_anomaly_key.csv")
+    seeded_ids = set(key[key["_seeded_anomaly"]]["transaction_id"])
     flagged_ids = set(flagged["transaction_id"])
 
     true_positives = seeded_ids & flagged_ids
@@ -144,13 +143,12 @@ def validate_against_seeded_anomalies(flagged, key_df):
     }
 
 
-def analyze(txns, seeded_key_df=None, contamination=0.02):
-    """Runs every transaction test and returns everything the dashboard
-    needs. Pass seeded_key_df only when testing the sample data; leave it
-    None for a user's own uploaded data (validation is skipped)."""
+def main():
+    txns = load()
     missing_approval, self_approved, near_threshold = control_exception_checks(txns)
     benford_stats, benford_df = benfords_law_test(txns)
-    flagged, n_total = isolation_forest_scan(txns, contamination=contamination)
+    flagged, n_total = isolation_forest_scan(txns)
+    validation = validate_against_seeded_anomalies(flagged)
 
     summary = {
         "transactions_reviewed": n_total,
@@ -160,30 +158,10 @@ def analyze(txns, seeded_key_df=None, contamination=0.02):
         "benford_mad": benford_stats["mean_absolute_deviation"],
         "benford_conformity": benford_stats["conformity"],
         "transactions_flagged_anomalous": len(flagged),
+        **validation,
     }
-    if seeded_key_df is not None:
-        summary.update(validate_against_seeded_anomalies(flagged, seeded_key_df))
-
-    return dict(missing_approval=missing_approval, self_approved=self_approved,
-                near_threshold=near_threshold, benford_df=benford_df,
-                flagged=flagged, summary=summary)
-
-
-def main():
-    txns = load()
-    seeded_key_df = pd.read_csv(VALIDATION_DIR / "seeded_anomaly_key.csv")
-    result = analyze(txns, seeded_key_df=seeded_key_df)
-
-    result["missing_approval"].to_csv(OUTPUTS_DIR / "findings_missing_approval.csv", index=False)
-    result["near_threshold"].to_csv(OUTPUTS_DIR / "findings_threshold_avoidance.csv", index=False)
-    result["benford_df"].to_csv(OUTPUTS_DIR / "benford_first_digit_distribution.csv", index=False)
-    result["flagged"][["transaction_id", "txn_date", "preparer_id", "amount", "account",
-                        "is_weekend", "has_approver", "is_round_amount", "anomaly_raw_score"]].to_csv(
-        OUTPUTS_DIR / "findings_anomalous_transactions.csv", index=False
-    )
-
-    print(result["summary"])
-    return result["summary"]
+    print(summary)
+    return summary
 
 
 if __name__ == "__main__":

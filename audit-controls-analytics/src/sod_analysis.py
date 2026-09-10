@@ -60,10 +60,9 @@ def load_clean():
     return users, access, sod
 
 
-def analyze(users, access, sod):
-    """Core analysis on in-memory dataframes -- no disk I/O. Used by both
-    the CLI pipeline (run()) and the Streamlit app's live "upload your own
-    data" mode."""
+def run():
+    users, access, sod = load_clean()
+
     conn = sqlite3.connect(":memory:")
     users.to_sql("users", conn, index=False)
     access.to_sql("user_access_clean", conn, index=False)
@@ -73,37 +72,30 @@ def analyze(users, access, sod):
     orphaned_access = pd.read_sql_query(ORPHANED_ACCESS_QUERY, conn)
     conn.close()
 
+    sod_conflicts.to_csv(OUTPUTS_DIR / "findings_sod_conflicts.csv", index=False)
+    orphaned_access.to_csv(OUTPUTS_DIR / "findings_terminated_user_access.csv", index=False)
+
     active_users = (users["status"] == "Active").sum()
     terminated_users = (users["status"] == "Terminated").sum()
 
     n_conflict_users = sod_conflicts["user_id"].nunique()
     n_orphaned_users = orphaned_access["user_id"].nunique()
 
+    # SoD conflicts by department, for the dashboard chart
     dept_lookup = users.set_index("user_id")["department"].to_dict()
     sod_conflicts["department"] = sod_conflicts["user_id"].map(dept_lookup)
     by_dept = sod_conflicts.groupby("department")["user_id"].nunique().sort_values(ascending=False)
+    by_dept.to_csv(OUTPUTS_DIR / "sod_conflicts_by_department.csv", header=["users_flagged"])
 
     summary = {
         "active_users_reviewed": int(active_users),
         "terminated_users_reviewed": int(terminated_users),
         "users_with_sod_conflicts": int(n_conflict_users),
-        "pct_active_users_with_sod_conflict": round(100 * n_conflict_users / active_users, 1)
-            if active_users else 0.0,
+        "pct_active_users_with_sod_conflict": round(100 * n_conflict_users / active_users, 1),
         "terminated_users_with_active_access": int(n_orphaned_users),
         "pct_terminated_users_with_orphaned_access": round(100 * n_orphaned_users / terminated_users, 1)
             if terminated_users else 0.0,
     }
-    return sod_conflicts, orphaned_access, by_dept, summary
-
-
-def run():
-    users, access, sod = load_clean()
-    sod_conflicts, orphaned_access, by_dept, summary = analyze(users, access, sod)
-
-    sod_conflicts.to_csv(OUTPUTS_DIR / "findings_sod_conflicts.csv", index=False)
-    orphaned_access.to_csv(OUTPUTS_DIR / "findings_terminated_user_access.csv", index=False)
-    by_dept.to_csv(OUTPUTS_DIR / "sod_conflicts_by_department.csv", header=["users_flagged"])
-
     print(summary)
     return summary
 

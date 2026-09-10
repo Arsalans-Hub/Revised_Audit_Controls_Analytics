@@ -1,0 +1,25 @@
+user_id,first_name,last_name,department,termination_date,role_name,granted_date
+U0002,George,Miller,Sales,2023-05-04,Sales Rep,2024-07-07
+U0005,Emily,Davis,Accounts Payable,2024-04-09,AP Approver,2023-12-28
+U0006,Chloe,Torres,Accounts Payable,2023-12-21,Vendor Master Maintainer,2023-12-14
+U0022,James,Harris,IT,2022-05-15,System Administrator,2023-08-06
+U0034,Robert,Patel,Operations,2026-01-30,Read-Only Reporting,2026-06-03
+U0057,Priya,Perez,Procurement,2025-12-31,Purchasing Approver,2026-04-05
+U0079,Samuel,Wilson,Human Resources,2025-01-19,HR Generalist,2020-12-13
+U0102,Anthony,Diaz,IT,2020-10-04,System Administrator,2025-07-17
+U0141,Tyler,Davis,Sales,2024-01-06,Sales Rep,2023-08-28
+U0156,Michael,Davis,Human Resources,2026-06-08,AP Clerk,2026-04-20
+U0196,David,Jackson,IT,2025-05-17,System Administrator,2025-10-20
+U0197,Michael,Lee,General Ledger,2024-07-19,System Administrator,2026-03-07
+U0228,Victor,Martinez,Operations,2026-04-11,Read-Only Reporting,2022-04-22
+U0244,Chloe,Williams,General Ledger,2022-07-31,Vendor Master Maintainer,2026-01-03
+U0265,Omar,Nguyen,Operations,2025-06-01,Read-Only Reporting,2025-01-17
+U0283,Nina,Young,Accounts Payable,2025-09-21,AP Clerk,2026-06-03
+U0312,Chloe,Lee,Human Resources,2023-12-13,HR Generalist,2023-02-01
+U0330,George,Martinez,Human Resources,2024-12-29,HR Generalist,2022-12-15
+U0339,Susan,Kim,Sales,2025-07-28,Sales Rep,2024-09-03
+U0343,Emily,Miller,IT,2026-04-21,System Administrator,2025-11-24
+U0357,Ines,Ali,Unknown,2026-07-15,HR Generalist,2024-01-05
+U0366,David,Taylor,Operations,2022-10-09,Read-Only Reporting,2022-08-04
+U0370,Ines,Chen,Operations,2023-04-10,Read-Only Reporting,2023-06-05
+U0373,Elizabeth,Walker,General Ledger,2022-02-26,GL Preparer,2024-07-21

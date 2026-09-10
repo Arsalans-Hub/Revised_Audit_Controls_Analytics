@@ -1,0 +1,3 @@
+transaction_id,txn_date,preparer_id,approver_id,account,amount,description
+T000001,2026-02-14,U0001,U0002,6010-Office Supplies,482.50,Office Supplies charge
+T000002,2026-02-16,U0002,,6040-IT Software,9800.00,IT Software charge

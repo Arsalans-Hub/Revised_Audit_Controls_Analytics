@@ -56,14 +56,6 @@ The full interactive version of all of this lives in the Streamlit dashboard (`a
 
 ---
 
-## Test it with your own data
-
-The dashboard isn't locked to the sample dataset. Switch to **"Upload your own data"** in the sidebar and drop in your own `users`, `access`, and `transactions` CSVs — the same data-quality, SoD, and anomaly-detection logic runs live, in-memory, on whatever you upload (nothing is written to disk). Templates showing the expected column format are downloadable right from the sidebar (`templates/` in this repo).
-
-Note: your files need to roughly match the expected schema (e.g. a `status` column on users, a `role_name` column on access grants) since the Segregation-of-Duties logic depends on it — that's normal for a tool like this; a real ITGC tool expects a known schema too.
-
----
-
 ## How to run
 
 ```bash
@@ -92,18 +84,17 @@ audit-controls-analytics/
 │   ├── data_quality.py       # SQL completeness/validity checks + cleansing + scoring
 │   ├── sod_analysis.py       # Segregation of Duties + terminated-access testing (SQL)
 │   ├── anomaly_detection.py  # control-exception checks, Benford's Law, Isolation Forest
-│   ├── charts.py             # shared matplotlib/seaborn chart functions
+│   ├── charts.py             # shared matplotlib chart functions
 │   └── run_pipeline.py       # runs the full pipeline end to end
 ├── sql/                      # the underlying SQL, as standalone .sql files
 │   ├── 01_data_quality_checks.sql
 │   ├── 02_sod_and_access_risk.sql
 │   └── 03_transaction_control_exceptions.sql
-├── templates/                 # sample CSVs showing the schema for "upload your own data"
 ├── data/
 │   ├── raw/                  # the "as-exported" synthetic ERP data
 │   └── processed/            # cleaned data used for testing
 ├── outputs/                  # every finding, as CSV, plus chart PNGs
-├── app.py                    # interactive Streamlit dashboard (sample data or your own upload)
+├── app.py                    # interactive Streamlit dashboard
 └── requirements.txt
 ```
 
@@ -119,7 +110,7 @@ audit-controls-analytics/
 
 ## Tech stack
 
-Python (pandas, numpy, scikit-learn), SQL (SQLite), Streamlit, Matplotlib/Seaborn.
+Python (pandas, numpy, scikit-learn), SQL (SQLite), Streamlit, Matplotlib.
 
 ---
 

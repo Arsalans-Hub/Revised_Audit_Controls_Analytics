@@ -1,0 +1,33 @@
+user_id,role_a,role_b
+U0126,AP Approver,AP Clerk
+U0138,AP Approver,AP Clerk
+U0159,AP Approver,AP Clerk
+U0181,AP Approver,AP Clerk
+U0347,AP Approver,AP Clerk
+U0176,AP Approver,Vendor Master Maintainer
+U0246,AP Approver,Vendor Master Maintainer
+U0295,AP Approver,Vendor Master Maintainer
+U0315,AP Approver,Vendor Master Maintainer
+U0332,AP Approver,Vendor Master Maintainer
+U0344,AP Approver,Vendor Master Maintainer
+U0369,AP Approver,Vendor Master Maintainer
+U0272,Purchasing Approver,Purchasing Buyer
+U0324,Purchasing Approver,Purchasing Buyer
+U0326,Purchasing Approver,Purchasing Buyer
+U0398,Purchasing Approver,Purchasing Buyer
+U0188,GL Approver,GL Preparer
+U0256,GL Approver,GL Preparer
+U0327,GL Approver,GL Preparer
+U0112,AP Approver,System Administrator
+U0173,AP Approver,System Administrator
+U0258,AP Approver,System Administrator
+U0289,AP Approver,System Administrator
+U0353,AP Approver,System Administrator
+U0084,GL Approver,System Administrator
+U0182,GL Approver,System Administrator
+U0205,GL Approver,System Administrator
+U0059,Purchasing Approver,System Administrator
+U0081,Purchasing Approver,System Administrator
+U0171,Purchasing Approver,System Administrator
+U0293,Purchasing Approver,System Administrator
+U0386,Purchasing Approver,System Administrator
