@@ -34,7 +34,7 @@ OUTPUTS_DIR = ROOT / "outputs"
 PROCESSED_DIR = ROOT / "data" / "processed"
 TEMPLATES_DIR = ROOT / "templates"
 
-st.set_page_config(page_title="IT Controls & Data Assurance Dashboard",
+st.set_page_config(page_title="Operational Risk & Controls Monitoring Dashboard",
                     page_icon="🛡️", layout="wide")
 
 REQUIRED_COLUMNS = {
